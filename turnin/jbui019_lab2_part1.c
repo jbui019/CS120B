@@ -16,12 +16,9 @@ int main(void) {
     /* Insert DDR and PORT initializations */
 	DDRA = 0x00; PORTA = 0xFF;
 	DDRB = 0xFF; PORTB  = 0x00;
-	DDRC = 0xFF; PORTC = 0x00;
-
+	
 	unsigned char tmpB = 0x00;
 	unsigned char tmpA = 0x00;
-	unsigned char tmpC = 0x00;
-	unsigned char availcnt = 0x00;
     /* Insert your solution below */
     while (1) {
 	// Read Input from PINA
@@ -37,27 +34,7 @@ int main(void) {
 	}
 
 	PORTB = tmpB;
-	
-	//Read input from PINA [3:0]
-	tmpC = PINA & 0x0F;
-		
-	// if tmpC is filled with 4 spots
-	if(tmpC == 0x0F){
-		availcnt = 0x04;
 	}
-	else if(tmpC == 0x0E || tmpC == 0x0D || tmpC == 0x0B || tmpC == 0x07){
-		availcnt = 0x03;
-	}
-	else if(tmpC == 0x0C || tmpC == 0x0A || tmpC == 0x09 || tmpC == 0x06 || tmpC == 0x05 		|| tmpC == 0x03 ){
-		availcnt = 0x02;
-	}
-	else{
-		availcnt = 0x01;
-	}
-	
-	PORTC = availcnt;
-	}
-	
     return 1;
 }
 
