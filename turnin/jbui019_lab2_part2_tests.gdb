@@ -1,63 +1,48 @@
-/*	Author: jbui019
- *  Partner(s) Name: 
- *	Lab Section:
- *	Assignment: Lab #  Exercise #
- *	Exercise Description: [optional - include for your own benefit]
- *
- *	I acknowledge all content contained herein, excluding template or example
- *	code, is my own original work.
- */
-#include <avr/io.h>
-#ifdef _SIMULATE_
-#include "simAVRHeader.h"
-#endif
+# Add tests below
+test "PINA[1:0] : 01, PORTB0: 1"
+setPINA 0x01
+continue 2
+expectPORTB 0x01
+checkResult
 
-int main(void) {
-    /* Insert DDR and PORT initializations */
-	DDRA = 0x00; PORTA = 0xFF;
-	DDRB = 0xFF; PORTB  = 0x00;
-	DDRC = 0xFF; PORTC = 0x00;
+test "PINA[1:0] : 10, PORTB0 : 0"
+setPINA 0x02
+continue 2
+expectPORTB 0x00
+checkResult
 
-	unsigned char tmpB = 0x00;
-	unsigned char tmpA = 0x00;
-	unsigned char tmpC = 0x00;
-	unsigned char availcnt = 0x00;
-    /* Insert your solution below */
-    while (1) {
-	// Read Input from PINA
-	tmpA = PINA & 0x03;
-	
-	// if PA) is 1, set PB1PB0 = 01, else = 10
-	if(tmpA == 0x01){
-		tmpB = (tmpB & 0xFC) | 0x01; //sets tmpB to bbbbbb01
+test "PINA[1:0] : 11, PORTB0 : 0"
+setPINA 0x03
+continue 2
+expectPORTB 0x00
+checkResult
 
-	}
-	else{
-		tmpB = (tmpB & 0xFC) | 0x00;//sets tmpB to bbbbbb00
-	}
+test "PINA[3:0] : 0001, PORTC[2:0] : 001"
+setPINA 0x01
+continue 2
+expectPORTC 0x01
+checkResult
 
-	PORTB = tmpB;
-	
-	//Read input from PINA [3:0]
-	tmpC = PINA & 0x0F;
-		
-	// if tmpC is filled with 4 spots
-	if(tmpC == 0x0F){
-		availcnt = 0x04;
-	}
-	else if(tmpC == 0x0E || tmpC == 0x0D || tmpC == 0x0B || tmpC == 0x07){
-		availcnt = 0x03;
-	}
-	else if(tmpC == 0x0C || tmpC == 0x0A || tmpC == 0x09 || tmpC == 0x06 || tmpC == 0x05 		|| tmpC == 0x03 ){
-		availcnt = 0x02;
-	}
-	else{
-		availcnt = 0x01;
-	}
-	
-	PORTC = availcnt;
-	}
-	
-    return 1;
-}
+test "PINA[3:0] : 0110, PORTC[2:0] : 010"
+setPINA 0x06
+continue 2
+expectPORTC 0x02
+checkResult
 
+test "PINA[3:0] : 1101, PORTC[2:0] : 011"
+setPINA 0x0D
+continue 2
+expectPORTC 0x03
+checkResult
+
+
+test "PINA[3:0] : 1111, PORT[2:0] : 100"
+setPINA 0x0F
+continue 2
+expectPORTC 0x04
+checkResult
+
+# Report on how many tests passed/tests ran
+set $passed=$tests-$failed
+eval "shell echo Passed %d/%d tests.\n",$passed,$tests
+echo ======================================================\n
