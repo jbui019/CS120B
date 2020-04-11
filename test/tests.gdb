@@ -27,46 +27,37 @@ echo ======================================================\n
 echo Running all tests..."\n\n
 
 # Add tests below
-test "PINA[1:0] : 01, PORTB0: 1"
-setPINA 0x01
+
+test "PINA: 47kg, PINB: 47kg, PINC: 47kg => PORTD = 0x8D"
+setPINA 0x2F
+setPINB 0x2F
+setPINC 0x2F
 continue 2
-expectPORTB 0x01
+expectPORTD 0x8D
 checkResult
 
-test "PINA[1:0] : 10, PORTB0 : 0"
-setPINA 0x02
+test"PINA: 40kg, PINB: 20kg, PINC: 124kg => PORTD = 0xBB"
+setPINA 0x28
+setPINB 0x14
+setPINC 0x7C
 continue 2
-expectPORTB 0x00
+expectPORTD 0xBB
 checkResult
 
-test "PINA[1:0] : 11, PORTB0 : 0"
-setPINA 0x03
+test "PINA: 0kg, PINB: 0kg, PINC: 0kg => PORTD = 0x00"
+setPINA 0
+setPINB 0
+setPINC 0
 continue 2
-expectPORTB 0x00
+expectPORTD 0x00
 checkResult
 
-test "PINA[3:0] : 0001, PORTC[2:0] : 001"
-setPINA 0x01
+test "PINA: 0kg, PINB: 0kg, PINC: 120kg => PORTD = 0x7A"
+setPINA 0
+setPINB 0
+setPINC 0x78
 continue 2
-expectPORTC 0x01
-checkResult
-
-test "PINA[3:0] : 0110, PORTC[2:0] : 010"
-setPINA 0x06
-continue 2
-expectPORTC 0x02
-checkResult
-
-test "PINA[3:0] : 1101, PORTC[2:0] : 011"
-setPINA 0x0D
-continue 2
-expectPORTC 0x03
-checkResult
-
-test "PINA[3:0] : 1111, PORTC[2:0] : 100"
-setPINA 0x0F
-continue 2
-expectPORTC 0x04
+expectPORTD 0x7A
 checkResult
 
 # Report on how many tests passed/tests ran
