@@ -1,5 +1,4 @@
-/*
-	Author: jbui019
+/*	Author: jbui019
  *  Partner(s) Name: 
  *	Lab Section:
  *	Assignment: Lab #  Exercise #
@@ -15,59 +14,37 @@
 
 int main(void) {
     /* Insert DDR and PORT initializations */
-	DDRA = 0x00; PORTA = 0xFF; //INPUT A
-	DDRB = 0x00; PORTB  = 0xFF; //INPUT B
-	DDRC = 0x00; PORTC = 0xFF; //INPUT C
-	DDRD = 0xFF; PORTD = 0x00; // OUTPUT D
-    /* Insert your solution below */
+	DDRA = 0x00; PORTA = 0xFF;
+	DDRB = 0xFF; PORTB  = 0x00;
+	DDRC = 0xFF; PORTC = 0x00;
+
 	unsigned char tmpB = 0x00;
-        unsigned char tmpA = 0x00;
-        unsigned char tmpC = 0x00;
-
+	unsigned char tmpA = 0x00;
+	unsigned char tmpC = 0x00;
+	unsigned char availcnt = 0x00;
+	unsigned char i;   
+ /* Insert your solution below */
     while (1) {
-	// Read Input from A B C
-        unsigned char totalWeight = 0x00;
-        unsigned char tmpD = 0x00;
-	unsigned char ACweight = 0x00; 
-	unsigned char heavierAC = 0x00;
-	unsigned char lighterAC = 0x00;
-	tmpA = PINA;
-	tmpB = PINB;
-	tmpC = PINC; 
-	
-	// add together weight
-	totalWeight = tmpB + tmpA + tmpC;
-	tmpD = totalWeight;
-
-	if(tmpA > tmpC){
-		heavierAC = tmpA;
-		lighterAC = tmpC;
-	}
-	else{
-		heavierAC = tmpC;
-		lighterAC = tmpA;
-	}
-
-	// if total weight is greater than 140kg set PD0 to 1
-	if(totalWeight > 0x8C ){
-		tmpD = tmpD | 0x01;
-
-	}
-	else{
-		tmpD = tmpD & ~(0x01);
-	}
-
-	if((heavierAC  -  lighterAC) > 0x50 ){
-		tmpD = tmpD | (0x01 << 1);
-
-	}
-	else{
-		tmpD = tmpD & ~(0x01 << 1);
-	}
-
-	PORTD = tmpD;
+	availcnt = 0x00;	
+	//Read input from PINA [3:0]
+	tmpA = PINA & 0x0F;
+		
+	for(i = 0; i < 4; i++){
+		if((tmpA & (0x01 << i)) !=0 ){
+			availcnt++;
+		}
 	}
 	
+	tmpC = 4 -  availcnt;	
+	
+	if(PINA == 0x0F){
+		tmpC =  0x80;
+	}
+	
+	PORTC = tmpC;
+	}
+
+		
     return 1;
 }
 

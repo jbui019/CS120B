@@ -18,49 +18,47 @@
 #   printPORTx f OR printPINx f 
 #       With x as the port or pin (A,B,C,D)
 #       With f as a format option which can be: [d] decimal, [x] hexadecmial (default), [t] binary 
-#       Example: printPORTC d
+#     e: printPORTC d
 #   printDDRx
-#       With x as the DDR (A,B,C,D)
+#       With xas the DDR (A,B,C,D)
 #       Example: printDDRB
 
 echo ======================================================\n
-echo Running all tests..."\n\n
+echo Running al tests..."\n\n
 
 # Add tests below
-
-test "PINA: 47kg, PINB: 47kg, PINC: 47kg => PORTD = 0x8D"
-setPINA 0x2F
-setPINB 0x2F
-setPINC 0x2F
+test"PINA: 0x00, PORTC0: 0x04"
+setPINA 0x00
 continue 2
-expectPORTD 0x8D
+expectPORTC 0x04
 checkResult
 
-test"PINA: 40kg, PINB: 20kg, PINC: 124kg => PORTD = 0xBB"
-setPINA 0x28
-setPINB 0x14
-setPINC 0x7C
+test "PINA: 0x01, PORTC0: 0x03"
+setPINA 0x01
 continue 2
-expectPORTD 0xBB
+expectPORTC 0x03
 checkResult
 
-test "PINA: 0kg, PINB: 0kg, PINC: 0kg => PORTD = 0x00"
-setPINA 0
-setPINB 0
-setPINC 0
+test "PINA: 0x02, PORTC0: 0x03"
+setPINA 0x02
 continue 2
-expectPORTD 0x00
+expectPORTC 0x03
 checkResult
 
-test "PINA: 0kg, PINB: 0kg, PINC: 120kg => PORTD = 0x7A"
-setPINA 0
-setPINB 0
-setPINC 0x78
+test "PINA: 0x08, PORTC0: 0x03"
+setPINA 0x08
 continue 2
-expectPORTD 0x7A
+expectPORTC 0x03
 checkResult
 
-# Report on how many tests passed/tests ran
+test "PINA: 0x0F, PORTC0: 0x80"
+setPINA 0x0F
+continue 2
+expectPORTC 0x80
+checkResult
+
+
+# eport on how many tests passed/tests ran
 set $passed=$tests-$failed
 eval "shell echo Passed %d/%d tests.\n",$passed,$tests
 echo ======================================================\n
